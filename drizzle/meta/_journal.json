@@ -36,6 +36,13 @@
       "when": 1720612320079,
       "tag": "0004_lowly_norman_osborn",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1720613944556,
+      "tag": "0005_greedy_frank_castle",
+      "breakpoints": true
     }
   ]
 }
