@@ -15,6 +15,20 @@
       "when": 1720606864873,
       "tag": "0001_same_black_bird",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1720610671931,
+      "tag": "0002_gifted_reaper",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1720610760381,
+      "tag": "0003_spotty_maximus",
+      "breakpoints": true
     }
   ]
 }
