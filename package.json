@@ -11,12 +11,18 @@
     "db:run": "node -r esbuild-register ./migrate.ts"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.1.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "drizzle-orm": "^0.31.4",
+    "lucide-react": "^0.407.0",
     "next": "14.2.4",
     "next-auth": "^4.24.7",
     "postgres": "^3.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.4.0",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.8"
   },
   "devDependencies": {

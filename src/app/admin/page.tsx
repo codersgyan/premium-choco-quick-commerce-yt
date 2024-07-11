@@ -1,7 +1,8 @@
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const AdminPage = () => {
-    return <div>AdminPage</div>;
+    return <Button>Click me</Button>;
 };
 
 export default AdminPage;
