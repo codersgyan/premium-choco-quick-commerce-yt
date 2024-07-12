@@ -23,6 +23,18 @@ const config = {
                 sans: ['var(--font-sans)', ...fontFamily.sans],
             },
             colors: {
+                brown: {
+                    50: '#f9f0e6',
+                    100: '#f3e1cc',
+                    200: '#e7c299',
+                    300: '#dba366',
+                    400: '#cf8433',
+                    500: '#c36500',
+                    600: '#a75500',
+                    700: '#8b4500',
+                    800: '#6f3500',
+                    900: '#532500',
+                },
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
