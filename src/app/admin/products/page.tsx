@@ -3,11 +3,11 @@
 import { Button } from '@/components/ui/button';
 import React from 'react';
 import { DataTable } from '../_components/data-table';
-import { columns } from './columns';
+import { columns } from './_components/columns';
 import { useQuery } from '@tanstack/react-query';
 import { getAllProducts } from '@/http/api';
 import { Product } from '@/types';
-import ProductSheet from './product-sheet';
+import ProductSheet from './_components/product-sheet';
 import { useNewProduct } from '@/store/product/product-store';
 import { Loader2 } from 'lucide-react';
 
