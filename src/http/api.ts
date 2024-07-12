@@ -14,3 +14,8 @@ export const createProduct = async (data: FormData) => {
 
     return response.data;
 };
+
+export const getAllWarehouses = async () => {
+    const response = await api.get('/warehouses');
+    return await response.data;
+};
