@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createWarehouse } from '@/http/api';
 import { useToast } from '@/components/ui/use-toast';
 import { Warehouse } from '@/types';
-import { useNewWarehouse } from '@/store/product/warehouse-store';
+import { useNewWarehouse } from '@/store/warehouse/warehouse-store';
 
 const WarehouseSheet = () => {
     const { toast } = useToast();

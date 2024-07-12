@@ -11,7 +11,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createDeliveryPerson } from '@/http/api';
 import { useToast } from '@/components/ui/use-toast';
 import { DeliveryPerson } from '@/types';
-import { useNewDeliveryPerson } from '@/store/product/delivery-person-store';
+import { useNewDeliveryPerson } from '@/store/deliveryPerson/delivery-person-store';
 
 const DeliveryPersonSheet = () => {
     const { toast } = useToast();

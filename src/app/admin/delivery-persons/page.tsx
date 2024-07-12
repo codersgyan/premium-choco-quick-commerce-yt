@@ -9,7 +9,7 @@ import { getAllDeliveryPersons } from '@/http/api';
 import { Product } from '@/types';
 import DeliveryPersonSheet from './delivery-person-sheet';
 import { Loader2 } from 'lucide-react';
-import { useNewDeliveryPerson } from '@/store/product/delivery-person-store';
+import { useNewDeliveryPerson } from '@/store/deliveryPerson/delivery-person-store';
 
 const DeliveryPersonsPage = () => {
     const { onOpen } = useNewDeliveryPerson();

@@ -9,7 +9,7 @@ import { getAllWarehouses } from '@/http/api';
 import { Product } from '@/types';
 import WarehouseSheet from './warehouse-sheet';
 import { Loader2 } from 'lucide-react';
-import { useNewWarehouse } from '@/store/product/warehouse-store';
+import { useNewWarehouse } from '@/store/warehouse/warehouse-store';
 
 const WarehousesPage = () => {
     const { onOpen } = useNewWarehouse();
