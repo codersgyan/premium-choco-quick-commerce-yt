@@ -19,7 +19,7 @@ const WarehousesPage = () => {
         isLoading,
         isError,
     } = useQuery<Product[]>({
-        queryKey: ['products'],
+        queryKey: ['warehouses'],
         queryFn: getAllWarehouses,
     });
 
