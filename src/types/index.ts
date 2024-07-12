@@ -10,3 +10,10 @@ export interface Warehouse {
     name: string;
     pincode: string;
 }
+
+export interface DeliveryPerson {
+    id: number;
+    name: string;
+    phone: string;
+    warehouseId: number;
+}

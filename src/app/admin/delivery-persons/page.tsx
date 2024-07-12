@@ -7,7 +7,7 @@ import { columns } from './columns';
 import { useQuery } from '@tanstack/react-query';
 import { getAllDeliveryPersons } from '@/http/api';
 import { Product } from '@/types';
-import WarehouseSheet from './warehouse-sheet';
+import DeliveryPersonSheet from './delivery-person-sheet';
 import { Loader2 } from 'lucide-react';
 import { useNewDeliveryPerson } from '@/store/product/delivery-person-store';
 
@@ -30,7 +30,7 @@ const DeliveryPersonsPage = () => {
                 <Button size={'sm'} onClick={onOpen}>
                     Add Delivery Person
                 </Button>
-                <WarehouseSheet />
+                <DeliveryPersonSheet />
             </div>
 
             {isError && <span className="text-red-500">Something went wrong.</span>}
