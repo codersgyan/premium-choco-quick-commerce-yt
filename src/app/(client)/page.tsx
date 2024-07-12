@@ -5,6 +5,7 @@ import SpecialProducts from './_components/specialProducts';
 import About from './_components/about';
 import NewsLetter from './_components/newsletter';
 import Footer from './_components/footer';
+import Products from './_components/products';
 
 const HomePage = () => {
     return (
@@ -13,6 +14,7 @@ const HomePage = () => {
             <Hero />
             <SpecialProducts />
             <About />
+            <Products />
             <NewsLetter />
             <Footer />
         </>
