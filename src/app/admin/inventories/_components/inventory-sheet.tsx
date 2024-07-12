@@ -7,42 +7,42 @@ import {
 } from '@/components/ui/sheet';
 import React from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createDeliveryPerson } from '@/http/api';
+import { createInventory } from '@/http/api';
 import { useToast } from '@/components/ui/use-toast';
-import { DeliveryPerson } from '@/types';
-import { useNewDeliveryPerson } from '@/store/deliveryPerson/delivery-person-store';
-import CreateDeliveryPersonForm, { FormValues } from './create-delivery-person-form';
+import { InventoryData } from '@/types';
+import CreateInventoryForm, { FormValues } from './create-inventory-form';
+import { useNewInventory } from '@/store/inventory/inventory-store';
 
 const InventorySheet = () => {
     const { toast } = useToast();
 
-    const { isOpen, onClose } = useNewDeliveryPerson();
+    const { isOpen, onClose } = useNewInventory();
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationKey: ['create-delivery-person'],
-        mutationFn: (data: DeliveryPerson) => createDeliveryPerson(data),
+        mutationKey: ['create-inventory'],
+        mutationFn: (data: InventoryData) => createInventory(data),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['delivery-persons'] });
+            queryClient.invalidateQueries({ queryKey: ['inventories'] });
             toast({
-                title: 'Delivery person created successfully',
+                title: 'Inventory created successfully',
             });
             onClose();
         },
     });
 
     const onSubmit = (values: FormValues) => {
-        mutate(values as DeliveryPerson);
+        mutate(values);
     };
 
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent className="min-w-[28rem] space-y-4">
                 <SheetHeader>
-                    <SheetTitle>Create Delivery Person</SheetTitle>
-                    <SheetDescription>Create a new delivery person</SheetDescription>
+                    <SheetTitle>Create Inventory</SheetTitle>
+                    <SheetDescription>Create a new inventory</SheetDescription>
                 </SheetHeader>
-                <CreateDeliveryPersonForm onSubmit={onSubmit} disabled={isPending} />
+                <CreateInventoryForm onSubmit={onSubmit} disabled={isPending} />
             </SheetContent>
         </Sheet>
     );

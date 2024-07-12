@@ -21,34 +21,35 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { Warehouse } from '@/types';
+import { Product, Warehouse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { getAllWarehouses } from '@/http/api';
+import { getAllProducts, getAllWarehouses } from '@/http/api';
+import { inventorySchema } from '@/lib/validators/inventorySchema';
 
-export type FormValues = z.input<typeof deliveryPersonSchema>;
+export type FormValues = z.input<typeof inventorySchema>;
 
-const CreateDeliveryPersonForm = ({
+const CreateInventoryForm = ({
     onSubmit,
     disabled,
 }: {
     onSubmit: (formValus: FormValues) => void;
     disabled: boolean;
 }) => {
-    const form = useForm<z.infer<typeof deliveryPersonSchema>>({
-        resolver: zodResolver(deliveryPersonSchema),
+    const form = useForm<z.infer<typeof inventorySchema>>({
+        resolver: zodResolver(inventorySchema),
         defaultValues: {
-            name: '',
-            phone: '',
+            sku: '',
         },
     });
 
-    const {
-        data: warehouses,
-        isLoading,
-        isError,
-    } = useQuery<Warehouse[]>({
+    const { data: warehouses, isLoading: isWarehousesLoading } = useQuery<Warehouse[]>({
         queryKey: ['warehouses'],
         queryFn: () => getAllWarehouses(),
+    });
+
+    const { data: products, isLoading: isProductsLoading } = useQuery<Product[]>({
+        queryKey: ['products'],
+        queryFn: getAllProducts,
     });
 
     const handleSubmit = (values: FormValues) => {
@@ -60,30 +61,18 @@ const CreateDeliveryPersonForm = ({
             <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="sku"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>SKU</FormLabel>
                             <FormControl>
-                                <Input placeholder="e.g. John Doe" {...field} />
+                                <Input placeholder="e.g. CH123456" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Phone</FormLabel>
-                            <FormControl>
-                                <Input placeholder="e.g. +918899889988" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+
                 <FormField
                     control={form.control}
                     name="warehouseId"
@@ -99,12 +88,48 @@ const CreateDeliveryPersonForm = ({
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    {isLoading ? (
+                                    {isWarehousesLoading ? (
                                         <SelectItem value="Loading">Loading...</SelectItem>
                                     ) : (
                                         <>
                                             {warehouses &&
                                                 warehouses.map((item) => (
+                                                    <SelectItem
+                                                        key={item.id}
+                                                        value={item.id ? item.id?.toString() : ''}>
+                                                        {item.name}
+                                                    </SelectItem>
+                                                ))}
+                                        </>
+                                    )}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="productId"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Product ID</FormLabel>
+                            <Select
+                                onValueChange={(value) => field.onChange(parseInt(value))}
+                                defaultValue={field.value ? field.value.toString() : ''}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select Product ID" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {isProductsLoading ? (
+                                        <SelectItem value="Loading">Loading...</SelectItem>
+                                    ) : (
+                                        <>
+                                            {products &&
+                                                products.map((item) => (
                                                     <SelectItem
                                                         key={item.id}
                                                         value={item.id ? item.id?.toString() : ''}>
@@ -128,4 +153,4 @@ const CreateDeliveryPersonForm = ({
     );
 };
 
-export default CreateDeliveryPersonForm;
+export default CreateInventoryForm;

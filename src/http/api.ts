@@ -1,4 +1,4 @@
-import { DeliveryPerson, Warehouse } from '@/types';
+import { DeliveryPerson, Inventory, InventoryData, Warehouse } from '@/types';
 import { api } from './client';
 
 export const getAllProducts = async () => {
@@ -39,4 +39,9 @@ export const createDeliveryPerson = async (data: DeliveryPerson) => {
 export const getAllInventories = async () => {
     const response = await api.get('/inventories');
     return await response.data;
+};
+
+export const createInventory = async (data: InventoryData) => {
+    const response = await api.post('/inventories', data);
+    return response.data;
 };
