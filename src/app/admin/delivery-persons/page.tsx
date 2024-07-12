@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import React from 'react';
-import { DataTable } from './data-table';
 import { columns } from './columns';
 import { useQuery } from '@tanstack/react-query';
 import { getAllDeliveryPersons } from '@/http/api';
@@ -10,6 +9,7 @@ import { Product } from '@/types';
 import DeliveryPersonSheet from './delivery-person-sheet';
 import { Loader2 } from 'lucide-react';
 import { useNewDeliveryPerson } from '@/store/deliveryPerson/delivery-person-store';
+import { DataTable } from '../_components/data-table';
 
 const DeliveryPersonsPage = () => {
     const { onOpen } = useNewDeliveryPerson();

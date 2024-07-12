@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import React from 'react';
-import { DataTable } from './data-table';
 import { columns } from './columns';
 import { useQuery } from '@tanstack/react-query';
 import { getAllWarehouses } from '@/http/api';
@@ -10,6 +9,7 @@ import { Product } from '@/types';
 import WarehouseSheet from './warehouse-sheet';
 import { Loader2 } from 'lucide-react';
 import { useNewWarehouse } from '@/store/warehouse/warehouse-store';
+import { DataTable } from '../_components/data-table';
 
 const WarehousesPage = () => {
     const { onOpen } = useNewWarehouse();
