@@ -151,7 +151,7 @@ export async function POST(request: Request) {
         order_id: String(finalOrder.id),
         url_return: 'http://localhost:3000/payment/return',
         url_success: 'http://localhost:3000/payment/success',
-        url_callback: 'https://c8fe-37-27-182-44.ngrok-free.app/api/payment/callback',
+        url_callback: 'https://c4ee-37-27-182-44.ngrok-free.app/api/payment/callback',
     };
 
     const stringData = btoa(JSON.stringify(paymentData)) + process.env.CRYPTOMUS_API_KEY;
