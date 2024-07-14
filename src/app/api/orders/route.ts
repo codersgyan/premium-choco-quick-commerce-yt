@@ -3,7 +3,7 @@ import { authOptions } from '@/lib/auth/authOptions';
 import { db } from '@/lib/db/db';
 import { deliveryPersons, inventories, orders, products, users, warehouses } from '@/lib/db/schema';
 import { orderSchema } from '@/lib/validators/orderSchema';
-import { and, eq, inArray, isNull } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNull } from 'drizzle-orm';
 import { Currency } from 'lucide-react';
 import { getServerSession } from 'next-auth';
 import axios from 'axios';
@@ -198,6 +198,7 @@ export async function GET() {
         })
         .from(orders)
         .leftJoin(products, eq(orders.productId, products.id))
-        .leftJoin(users, eq(orders.userId, users.id));
+        .leftJoin(users, eq(orders.userId, users.id))
+        .orderBy(desc(orders.id));
     return Response.json(allOrders);
 }
