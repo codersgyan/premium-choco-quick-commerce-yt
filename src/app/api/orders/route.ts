@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 import { authOptions } from '@/lib/auth/authOptions';
 import { db } from '@/lib/db/db';
-import { deliveryPersons, inventories, orders, products, warehouses } from '@/lib/db/schema';
+import { deliveryPersons, inventories, orders, products, users, warehouses } from '@/lib/db/schema';
 import { orderSchema } from '@/lib/validators/orderSchema';
 import { and, eq, inArray, isNull } from 'drizzle-orm';
 import { Currency } from 'lucide-react';
@@ -176,4 +176,28 @@ export async function POST(request: Request) {
             message: 'Failed to create an invoice',
         });
     }
+}
+
+export async function GET() {
+    // todo: add authentication and authorization
+    // todo: add logging
+    // todo: add error handling
+    const allOrders = await db
+        .select({
+            id: orders.id,
+            product: products.name,
+            productId: products.id,
+            userId: users.id,
+            user: users.fname,
+            type: orders.type,
+            price: orders.price,
+            image: products.image,
+            status: orders.status,
+            address: orders.address,
+            createAt: orders.createdAt,
+        })
+        .from(orders)
+        .leftJoin(products, eq(orders.productId, products.id))
+        .leftJoin(users, eq(orders.userId, users.id));
+    return Response.json(allOrders);
 }
