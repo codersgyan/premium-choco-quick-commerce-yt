@@ -1,9 +1,12 @@
+import crypto from 'node:crypto';
 import { authOptions } from '@/lib/auth/authOptions';
 import { db } from '@/lib/db/db';
 import { deliveryPersons, inventories, orders, products, warehouses } from '@/lib/db/schema';
 import { orderSchema } from '@/lib/validators/orderSchema';
 import { and, eq, inArray, isNull } from 'drizzle-orm';
+import { Currency } from 'lucide-react';
 import { getServerSession } from 'next-auth';
+import axios from 'axios';
 
 export async function POST(request: Request) {
     // get session
@@ -58,7 +61,7 @@ export async function POST(request: Request) {
                 .values({
                     ...validatedData,
                     // @ts-ignore
-                    userId: session.token.id,
+                    userId: Number(session.token.id),
                     price: foundProducts[0].price * validatedData.qty,
                     // todo: move all statuses to enum or const
                     status: 'received',
@@ -140,4 +143,37 @@ export async function POST(request: Request) {
     }
 
     // create invoice
+    const paymentUrl = 'https://api.cryptomus.com/v1/payment';
+
+    const paymentData = {
+        amount: String(finalOrder.price),
+        currency: 'USD',
+        order_id: String(finalOrder.id),
+        url_return: 'http://localhost:3000/payment/return',
+        url_success: 'http://localhost:3000/payment/success',
+        url_callback: 'https://c8fe-37-27-182-44.ngrok-free.app/api/payment/callback',
+    };
+
+    const stringData = btoa(JSON.stringify(paymentData)) + process.env.CRYPTOMUS_API_KEY;
+    const sign = crypto.createHash('md5').update(stringData).digest('hex');
+
+    const headers = {
+        merchant: process.env.CRYPTOMUS_MERCHANT_ID,
+        sign,
+    };
+
+    try {
+        const response = await axios.post(paymentUrl, paymentData, {
+            headers,
+        });
+        console.log('response', response.data);
+
+        return Response.json({ paymentUrl: response.data.result.url });
+    } catch (err) {
+        console.log('error while creating an invoice', err);
+        // todo: 1. retry if not then we have undo the order.
+        return Response.json({
+            message: 'Failed to create an invoice',
+        });
+    }
 }

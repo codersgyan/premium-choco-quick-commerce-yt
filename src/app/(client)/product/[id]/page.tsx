@@ -1,6 +1,6 @@
 'use client';
-import { getSingleProduct } from '@/http/api';
-import { useQuery } from '@tanstack/react-query';
+import { getSingleProduct, placeOrder } from '@/http/api';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useParams, usePathname } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
@@ -26,8 +26,15 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { AxiosError } from 'axios';
+import { useToast } from '@/components/ui/use-toast';
+
+type CustomError = {
+    message: string;
+};
 
 const SingleProduct = () => {
+    const { toast } = useToast();
     const params = useParams();
     const pathname = usePathname();
     const id = params.id;
@@ -49,10 +56,32 @@ const SingleProduct = () => {
         queryFn: () => getSingleProduct(id as string),
     });
 
+    const { mutate } = useMutation({
+        mutationKey: ['order'],
+        mutationFn: (data: FormValues) => placeOrder({ ...data, productId: Number(id) }),
+        onSuccess: (data) => {
+            window.location.href = data.paymentUrl;
+        },
+        onError: (err: AxiosError) => {
+            if (err.response?.data) {
+                const customErr = err.response.data as CustomError;
+                console.error(customErr.message);
+                toast({
+                    title: customErr.message,
+                    color: 'red',
+                });
+            } else {
+                console.error(err);
+                toast({ title: 'Unknown error' });
+            }
+        },
+    });
+
     type FormValues = z.infer<typeof orderSchema>;
     const onSubmit = (values: FormValues) => {
         // submit the form
         console.log({ values });
+        mutate(values);
     };
 
     const qty = form.watch('qty');
@@ -180,6 +209,12 @@ const SingleProduct = () => {
                                                                 className="h-9 border-brown-200 bg-white placeholder:text-gray-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brown-400 focus-visible:ring-offset-0"
                                                                 placeholder="e.g. 1"
                                                                 {...field}
+                                                                onChange={(e) => {
+                                                                    const value = parseFloat(
+                                                                        e.target.value
+                                                                    );
+                                                                    field.onChange(value);
+                                                                }}
                                                             />
                                                         </FormControl>
                                                         <FormMessage className="text-xs" />
