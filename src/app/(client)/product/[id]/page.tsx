@@ -5,7 +5,7 @@ import { useParams, usePathname } from 'next/navigation';
 import React from 'react';
 import Image from 'next/image';
 import Header from '../../_components/header';
-import { Star } from 'lucide-react';
+import { Loader2, Star } from 'lucide-react';
 import { Product } from '@/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Separator } from '@/components/ui/separator';
@@ -56,7 +56,7 @@ const SingleProduct = () => {
         queryFn: () => getSingleProduct(id as string),
     });
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationKey: ['order'],
         mutationFn: (data: FormValues) => placeOrder({ ...data, productId: Number(id) }),
         onSuccess: (data) => {
@@ -227,7 +227,15 @@ const SingleProduct = () => {
                                     <div className="flex items-center justify-between">
                                         <span className="text-3xl font-semibold">${price}</span>
                                         {session ? (
-                                            <Button type="submit">Buy Now</Button>
+                                            <Button type="submit" disabled={isPending}>
+                                                {isPending && (
+                                                    <>
+                                                        <Loader2 className="mr-2 size-5 animate-spin" />
+                                                    </>
+                                                )}
+
+                                                <span>Buy Now</span>
+                                            </Button>
                                         ) : (
                                             <Link href={`/api/auth/signin?callbackUrl=${pathname}`}>
                                                 <Button>Buy Now</Button>
