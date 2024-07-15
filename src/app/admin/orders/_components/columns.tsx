@@ -11,6 +11,7 @@ import { Order } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { MoreHorizontal } from 'lucide-react';
 import StatusBadge from './status-badge';
+import StatusChanger from './status-changer';
 
 export const columns: ColumnDef<Order>[] = [
     {
@@ -38,6 +39,13 @@ export const columns: ColumnDef<Order>[] = [
         header: 'Status',
         cell: ({ row }) => {
             return <StatusBadge status={row.original.status} />;
+        },
+    },
+    {
+        id: 'status',
+        header: 'Action',
+        cell: ({ row }) => {
+            return <StatusChanger orderId={row.original.id} currentStatus={row.original.status} />;
         },
     },
 ];

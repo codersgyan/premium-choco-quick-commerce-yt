@@ -49,3 +49,8 @@ export interface Order {
     price: number;
     qty: number;
 }
+
+export interface OrderStatusData {
+    orderId: number;
+    status: string;
+}

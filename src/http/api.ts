@@ -1,4 +1,11 @@
-import { DeliveryPerson, Inventory, InventoryData, OrderData, Warehouse } from '@/types';
+import {
+    DeliveryPerson,
+    Inventory,
+    InventoryData,
+    OrderData,
+    OrderStatusData,
+    Warehouse,
+} from '@/types';
 import { api } from './client';
 
 export const getAllProducts = async () => {
@@ -58,5 +65,10 @@ export const placeOrder = async (data: OrderData) => {
 
 export const getAllOrders = async () => {
     const response = await api.get(`/orders`);
+    return await response.data;
+};
+
+export const changeOrderStatus = async (data: OrderStatusData) => {
+    const response = await api.patch(`/orders/status`, data);
     return await response.data;
 };
