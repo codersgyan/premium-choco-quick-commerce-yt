@@ -54,3 +54,15 @@ export interface OrderStatusData {
     orderId: number;
     status: string;
 }
+
+export interface MyOrder {
+    id: number;
+    image: string;
+    price: number;
+    product: string;
+    address: string;
+    productDescription: string;
+    status: string;
+    type: string;
+    createdAt: string;
+}
