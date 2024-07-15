@@ -38,3 +38,14 @@ export interface OrderData {
     pincode: string;
     address: string;
 }
+
+export interface Order {
+    id: number;
+    product: string;
+    user: string;
+    type: string;
+    address: string;
+    status: string;
+    price: number;
+    qty: number;
+}

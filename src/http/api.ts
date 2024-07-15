@@ -55,3 +55,8 @@ export const placeOrder = async (data: OrderData) => {
     const response = await api.post(`/orders`, data);
     return await response.data;
 };
+
+export const getAllOrders = async () => {
+    const response = await api.get(`/orders`);
+    return await response.data;
+};

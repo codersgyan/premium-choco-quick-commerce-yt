@@ -194,11 +194,16 @@ export async function GET() {
             image: products.image,
             status: orders.status,
             address: orders.address,
+            qty: orders.qty,
             createAt: orders.createdAt,
         })
         .from(orders)
         .leftJoin(products, eq(orders.productId, products.id))
         .leftJoin(users, eq(orders.userId, users.id))
+        // join inventories (orderId)
+        // join delivery person (orderId)
+        // join warehouse (deliveryId)
+        // todo: 1. use pagination, 2. Put index
         .orderBy(desc(orders.id));
     return Response.json(allOrders);
 }
