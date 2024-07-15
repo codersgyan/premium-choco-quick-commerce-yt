@@ -1,12 +1,24 @@
+import { authOptions } from '@/lib/auth/authOptions';
 import { db } from '@/lib/db/db';
 import { products } from '@/lib/db/schema';
 import { productSchema } from '@/lib/validators/productSchema';
 import { desc } from 'drizzle-orm';
+import { getServerSession } from 'next-auth';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 export async function POST(request: Request) {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+        return Response.json({ message: 'Not allowed' }, { status: 401 });
+    }
     // todo: check user access.
+    // @ts-ignore
+    if (session.token.role !== 'admin') {
+        return Response.json({ message: 'Not allowed' }, { status: 403 });
+    }
+
     const data = await request.formData();
 
     let validatedData;
