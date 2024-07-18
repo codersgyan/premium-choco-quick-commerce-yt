@@ -1,7 +1,7 @@
 import { authOptions } from '@/lib/auth/authOptions';
 import { db } from '@/lib/db/db';
 import { products } from '@/lib/db/schema';
-import { productSchema } from '@/lib/validators/productSchema';
+import { isServer, productSchema } from '@/lib/validators/productSchema';
 import { desc } from 'drizzle-orm';
 import { getServerSession } from 'next-auth';
 import { writeFile } from 'node:fs/promises';
@@ -33,10 +33,13 @@ export async function POST(request: Request) {
         return Response.json({ message: err }, { status: 400 });
     }
 
-    const filename = `${Date.now()}.${validatedData.image.name.split('.').slice(-1)}`; // choco.png 213123123123.png
+    const inputImage = isServer
+        ? (validatedData.image as File)
+        : (validatedData.image as FileList)[0];
+    const filename = `${Date.now()}.${inputImage.name.split('.').slice(-1)}`; // choco.png 213123123123.png
 
     try {
-        const buffer = Buffer.from(await validatedData.image.arrayBuffer());
+        const buffer = Buffer.from(await inputImage.arrayBuffer());
         await writeFile(path.join(process.cwd(), 'public/assets', filename), buffer);
     } catch (err) {
         return Response.json({ message: 'Failed to save the file to fs' }, { status: 500 });
