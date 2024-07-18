@@ -149,9 +149,9 @@ export async function POST(request: Request) {
         amount: String(finalOrder.price),
         currency: 'USD',
         order_id: String(finalOrder.id),
-        url_return: 'http://localhost:3000/payment/return',
-        url_success: 'http://localhost:3000/payment/success',
-        url_callback: 'https://c4ee-37-27-182-44.ngrok-free.app/api/payment/callback',
+        url_return: `${process.env.APP_BASE_URL}/payment/return`,
+        url_success: `${process.env.APP_BASE_URL}/payment/success`,
+        url_callback: `${process.env.APP_BASE_URL}/api/payment/callback`,
     };
 
     const stringData = btoa(JSON.stringify(paymentData)) + process.env.CRYPTOMUS_API_KEY;
